@@ -2,7 +2,6 @@ main
 {
 	box-sizing: border-box;
 	width: 100%;
-	padding: 5rem;
 }
 
 main header
@@ -11,4 +10,35 @@ main header
 	text-align: center;
 	color: white;
 	text-transform: capitalize;
+}
+
+#project-cards
+{
+	box-sizing: border-box;
+	padding: 5rem;
+	display: flex;
+	justify-content: space-around;
+}
+
+main section article
+{
+	border: solid var(--navbar-bg-color) 0.3rem;
+	width: 30vw;
+	height: 35vw;
+}
+
+main section article header
+{
+	background-color: rgb(14, 126, 126);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 5vw;
+	width: 100%;
+}
+
+main section article img
+{
+	width: 100%;
+	object-fit: cover;
 }
