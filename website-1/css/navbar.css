@@ -1,0 +1,54 @@
+/* main navbar styling */
+
+#navbar
+{
+	width: 100vw;
+	height: 15vh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: var(--navigation-bg-color);
+}
+
+/* navigation links*/
+#navbar-links
+{
+	height: 15vh;
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#navbar-links a
+{
+	line-height: 100%;
+	color: rgb(221, 221, 221);
+	font-size: 3rem;
+	margin: 0 1rem;
+	text-decoration: none;
+}
+
+#navbar-links a:hover
+{
+	line-height: 100%;
+	color: rgb(255, 255, 255);
+	font-size: 3rem;
+	margin: 0 1rem;
+	text-decoration: none;
+}
+
+
+/* logo */
+#navbar > a
+{
+	height: 90%;
+	width: 10%;
+	display: flex;
+	align-items: center;
+}
+
+#navbar > a > img
+{
+	height: 100%
+}
