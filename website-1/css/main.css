@@ -4,8 +4,10 @@ main
 	width: 100%;
 }
 
-main header
+main > header
 {
+	box-sizing: border-box;
+	padding: 5rem;
 	width: 100%;
 	text-align: center;
 	color: white;
