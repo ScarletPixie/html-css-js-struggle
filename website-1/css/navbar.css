@@ -14,22 +14,31 @@
 #navbar-links
 {
 	height: var(--navbar-height);
-	width: 40%;
+	width: 50%;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: right;
 	align-items: center;
 	text-align: center;
 	white-space: nowrap;
+	box-sizing: border-box;
 }
 
 #navbar-links a
 {
+	box-sizing: border-box;
 	width: 50%;
 	line-height: var(--navbar-height);
 	color: rgb(211, 211, 211);
 	font-size: 3rem;
 	text-decoration: none;
+}
+
+#navbar-links a::before
+{
+	text-align: left;
+	box-sizing: border-box;
+	content: "|";
 }
 
 #navbar-links a:hover

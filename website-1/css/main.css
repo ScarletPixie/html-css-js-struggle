@@ -1,6 +1,7 @@
 main
 {
 	box-sizing: border-box;
+	padding: 5rem;
 	width: 100%;
 }
 
@@ -24,14 +25,18 @@ main > header
 
 main section article
 {
+	background-color: var(--navbar-bg-color);
 	border: solid var(--navbar-bg-color) 0.3rem;
+	border-radius: 5%;
+	overflow: hidden;
 	width: 30vw;
-	height: 35vw;
+	height: 38vw;
 }
 
 main section article header
 {
-	background-color: rgb(14, 126, 126);
+	color: white;
+	background-color: var(--navbar-bg-color);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,4 +48,12 @@ main section article img
 {
 	width: 100%;
 	object-fit: cover;
+}
+
+main section article footer
+{
+	height: 3vw;
+	width: 100%;
+	text-align: center;
+	color: white;
 }
