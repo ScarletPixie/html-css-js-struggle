@@ -1,0 +1,54 @@
+:root
+{
+	--calc-border-color: burlywood;
+	--calc-bg-color: rgb(86, 95, 121);
+
+	--numkey-bg-color:		antiquewhite;
+	--numkey-hover-color:	rgb(252, 230, 202);
+}
+
+dialog
+{
+	width: 20%;
+	box-sizing: border-box;
+	display: block;
+	border: solid var(--calc-border-color) 0.2rem;
+	border-radius: 3%;
+	overflow: hidden;
+	background-color: var(--calc-bg-color);
+}
+
+dialog form
+{
+	display: grid;
+	justify-content: center;
+	gap: 0.3rem;
+	grid-template-columns: repeat(4, 25%);
+	grid-template-rows: 2fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+dialog form #input_field
+{
+	grid-column: 1 / span 4;
+	box-sizing: border-box;
+	margin: 1rem 0;
+	height: 4rem;
+	font-size: 2rem;
+	color: rgb(34, 33, 33);
+}
+
+input[type="text"]:focus
+{
+
+	outline: none;
+}
+
+.reset-key
+{
+	grid-column: 1 / span 2;
+}
+
+.equals-key
+{
+	grid-column: 3 / span 2;
+}
