@@ -9,6 +9,8 @@ html, body
 	background: linear-gradient(to bottom left, #780206, #061161);
 	background-attachment: fixed;
 	background-repeat: no-repeat;
+
+	padding-bottom: 50rem;
 }
 
 h1
