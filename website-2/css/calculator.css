@@ -30,10 +30,10 @@ dialog form
 
 dialog form #input_field
 {
+	margin: 1rem 0;
 	background-color: #eee;
 	grid-column: 1 / span 4;
 	box-sizing: border-box;
-	margin: 1rem 0;
 	height: 4rem;
 	font-size: 2rem;
 	color: rgb(34, 33, 33);

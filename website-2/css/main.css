@@ -4,10 +4,13 @@ html, body
 	margin: 0;
 	height: 100%;
 	width: 100%;
-	background-repeat: no-repeat;
-	background-size: cover;
 	box-sizing: border-box;
+	background-size: cover;
 	background: linear-gradient(to bottom left, #780206, #061161);
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+
+	padding-bottom: 50rem;
 }
 
 h1
