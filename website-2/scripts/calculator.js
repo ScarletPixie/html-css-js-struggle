@@ -38,11 +38,8 @@ function parseInput()
 	{
 		if (!full_input[i].length)
 		{
-		
-			console.log(full_input[i]);
 			full_input.splice(i, 1);
 			i--;
-			
 		}
 	}
 
@@ -66,10 +63,29 @@ function parseInput()
 		}
 	}
 
-	if (!full_input || full_input.length < 3)
-		return;
+	while (true)
+	{
+		const index = full_input.indexOf("*");
 
-	for (i = 0; i < full_input.length; i += 3)
+		if (index < 0)
+			break ;
+		full_input[index] = Number(full_input[index - 1]) * Number(full_input[index + 1]);
+		full_input.splice(index -1, 1);
+		full_input.splice(index, 1);
+	}
+
+	while (true)
+	{
+		const index = full_input.indexOf("/");
+
+		if (index < 0)
+			break ;
+		full_input[index] = Number(full_input[index - 1]) / Number(full_input[index + 1]);
+		full_input.splice(index -1, 1);
+		full_input.splice(index, 1);
+	}
+	
+	for (i = 0; i < full_input.length && full_input.length >= 3; i += 3)
 	{
 		if (full_input[i + 1] === "+")
 			result += Number(full_input[i]) + Number(full_input[i + 2]);
@@ -80,6 +96,9 @@ function parseInput()
 		else if (full_input[i + 1] === "/")
 			result += Number(full_input[i]) / Number(full_input[i + 2]);
 	}
+
+	if (full_input.length == 1)
+		result = Number(full_input[0]);
 
 	INPUT_FIELD.value = result;
 
