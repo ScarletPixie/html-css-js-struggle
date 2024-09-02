@@ -26,71 +26,66 @@ function setEventListeners()
 //	event handlers;
 function parseInput()
 {
-	const operators = "*-+/";
 	let result = 0;
 
 	if (!INPUT_FIELD.value || INPUT_FIELD.value === "")
 		return;
-
 	
-	//INPUT_FIELD.value = INPUT_FIELD.value.replaceAll(" ", "");
+	INPUT_FIELD.value = INPUT_FIELD.value.replaceAll(" ", "");
 	let full_input = INPUT_FIELD.value.split(/([\*\+\-\/])/);
 
 	for (i = 0; full_input && full_input.length && i < full_input.length; i++)
 	{
 		if (!full_input[i].length)
 		{
-		
-			console.log(full_input[i]);
 			full_input.splice(i, 1);
 			i--;
-			
 		}
 	}
-	console.log(full_input);
 
 	if (!full_input || full_input.length < 3)
-	{
 		return;
-	}
 
 	for (i = 0; full_input && full_input[i] && i < full_input.length; i++)
 	{
-		if (operators.includes(full_input[i]))
+		if (is_operator(full_input[i]))
 		{
-			if (i == 0 && full_input[i + 1] && operators.includes(full_input[i + 1]))
+			if (invalid_operator(full_input[i - 1], full_input[i + 1]))
 			{
 				full_input.splice(i, 1);
 				i--;
 			}
-			else if (i == 0 && full_input[i + 1] && !operators.includes(full_input[i + 1]))
+			else if ((i == 0 || is_operator(full_input[i - 1])) && !is_operator(full_input[i + 1]))
 			{	
 				full_input[i] += full_input[i + 1];
 				full_input.splice(i + 1, 1);
 			}
-			else if (full_input[i - 1] && full_input[i + 1] && operators.includes(full_input[i - 1]) && operators.includes(full_input[i + 1]))
-			{
-				full_input.splice(i, 1);
-				i--;
-			}
-			else if (!full_input[i + 1])
-			{
-				full_input.splice(i, 1);
-				i--;
-			}
-			else if (full_input[i - 1] && operators.includes(full_input[i - 1]) && !operators.includes(full_input[i + 1]))
-			{
-				full_input[i] += full_input[i + 1];
-				full_input.splice(i + 1, 1);
-			}
 		}
 	}
-	if (!full_input || full_input.length < 3)
+
+	while (true)
 	{
-		return;
+		const index = full_input.indexOf("*");
+
+		if (index < 0)
+			break ;
+		full_input[index] = Number(full_input[index - 1]) * Number(full_input[index + 1]);
+		full_input.splice(index -1, 1);
+		full_input.splice(index, 1);
 	}
 
-	for (i = 0; i < full_input.length; i += 3)
+	while (true)
+	{
+		const index = full_input.indexOf("/");
+
+		if (index < 0)
+			break ;
+		full_input[index] = Number(full_input[index - 1]) / Number(full_input[index + 1]);
+		full_input.splice(index -1, 1);
+		full_input.splice(index, 1);
+	}
+	
+	for (i = 0; i < full_input.length && full_input.length >= 3; i += 3)
 	{
 		if (full_input[i + 1] === "+")
 			result += Number(full_input[i]) + Number(full_input[i + 2]);
@@ -102,8 +97,30 @@ function parseInput()
 			result += Number(full_input[i]) / Number(full_input[i + 2]);
 	}
 
-	console.log(result);
+	if (full_input.length == 1)
+		result = Number(full_input[0]);
+
 	INPUT_FIELD.value = result;
+
+	//	helper functions;
+	function is_operator(char)
+	{
+		const operators = "*-/+";
+
+		if (!char)
+			return false;
+		return (operators.includes(char));
+	}
+	function invalid_operator(prev, next)
+	{
+		if (!next)
+			return true;
+		else if (!prev && is_operator(next))
+			return true;
+		else if (is_operator(prev) && is_operator(next))
+			return true;
+		return false;
+	}
 }
 
 function addToInput(e)
