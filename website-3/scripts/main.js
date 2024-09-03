@@ -56,7 +56,7 @@ async function loadQuestion(response_data, questionIdx)
 	question.textContent = tmp.textContent;
 	
 	//	join correct answers in incorrect_answers array in random psition
-	//if (!questionContext.incorrect_answers.includes(questionContext.correct_answer))
+	if (!questionContext.incorrect_answers.includes(questionContext.correct_answer))
 		insertRandom(questionContext.incorrect_answers, questionContext.correct_answer);
 	//	create labels and radio inputs with choices;
 	const choices = [];
