@@ -167,10 +167,11 @@ function showHelp()
 //	helper functions
 async function insertRandom(array, element)
 {
-	const randomIdx = Math.floor((Math.random() * (array.length + 1)));
+	const randomIdx = Math.floor((Math.random() * (array.length)));
 	const tmp = array[randomIdx];
 	array[randomIdx] = element;
 	array.push(tmp);
+	alert(randomIdx);
 }
 
 function createPlayButton()
