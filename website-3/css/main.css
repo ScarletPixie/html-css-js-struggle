@@ -19,17 +19,6 @@ fieldset
 	border: none;
 }
 
-button
-{
-	background-color: rgb(0, 81, 255);
-	color: white;
-	border: solid rgb(7, 31, 109) 0.5px;
-	border-radius: 5%;
-	font-weight: bolder;
-	width: min(25%, 5rem);
-	height: calc(min(25%, 5rem) - 5%);
-}
-
 header h1
 {
 	text-align: center;
@@ -48,7 +37,7 @@ main
 
 #question-content
 {
-
+	text-align: center;
 }
 
 #question-content legend
@@ -56,24 +45,79 @@ main
 	font-weight: bold;
 	font-size: 1.2rem;
 	margin: 0 auto;
-	padding: 1rem;
+	padding: 2rem;
 	box-sizing: border-box;
 }
 
 #question-content label
 {
 	display: block;
+	text-align: left;
 }
-
 
 #question-card
 {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 3fr 2fr 1fr;
 	box-sizing: border-box;
 	padding: clamp(1rem, 2vw, 2rem);
 	width: min(90vw, 30rem);
-	height: min(90vh, 40rem);
 	border: solid white 2px;
 	background-color: aliceblue;
 	border-radius: min(5vw, 5%);
 	overflow: hidden;
+}
+
+#question-card #feedback
+{
+	text-align: center;
+	box-sizing: border-box;
+	padding: 3vh 0;
+	font-size: 1.5rem;
+	grid-column: 1 / span 3;
+}
+
+.init-button
+{
+	background-color: rgb(0, 81, 255);
+	color: white;
+	border: solid rgb(7, 31, 109) 0.5px;
+	border-radius: 3%;
+	font-weight: bolder;
+	font-size: min(1.7rem, 5vw);
+	width: 40%;
+	height: 50%;
+	text-align: center;
+	margin: auto;
+}
+
+#question-card div
+{
+	grid-column: 1 / span 3;
+}
+
+.navigation
+{
+	display: flex;
+	visibility: hidden;
+	justify-content: space-evenly;
+}
+
+.action-buttons
+{
+	background-color: rgb(0, 81, 255);
+	color: white;
+	border: solid rgb(7, 31, 109) 0.5px;
+	border-radius: 3%;
+	font-weight: bolder;
+	width: 30%;
+	font-size: min(1.5rem, 5vw);
+}
+
+button:disabled
+{
+	background-color: gray;
+	color: rgb(32, 31, 31);
 }
