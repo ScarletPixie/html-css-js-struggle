@@ -56,9 +56,8 @@ async function loadQuestion(response_data, questionIdx)
 	question.textContent = tmp.textContent;
 	
 	//	join correct answers in incorrect_answers array in random psition
-	if (!questionContext.incorrect_answers.includes(questionContext.correct_answer))
+	//if (!questionContext.incorrect_answers.includes(questionContext.correct_answer))
 		insertRandom(questionContext.incorrect_answers, questionContext.correct_answer);
-
 	//	create labels and radio inputs with choices;
 	const choices = [];
 	for (answer of questionContext.incorrect_answers)
@@ -166,9 +165,9 @@ function showHelp()
 }
 
 //	helper functions
-function insertRandom(array, element)
+async function insertRandom(array, element)
 {
-	const randomIdx = Math.floor(Math.random() * (array.lenght + 1));
+	const randomIdx = Math.floor((Math.random() * (array.length + 1)));
 	const tmp = array[randomIdx];
 	array[randomIdx] = element;
 	array.push(tmp);
