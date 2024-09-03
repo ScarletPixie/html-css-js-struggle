@@ -57,7 +57,11 @@ async function loadQuestion(response_data, questionIdx)
 	
 	//	join correct answers in incorrect_answers array in random psition
 	if (!questionContext.incorrect_answers.includes(questionContext.correct_answer))
-		insertRandom(questionContext.incorrect_answers, questionContext.correct_answer);
+	{
+		questionContext.incorrect_answers.push(questionContext.correct_answer);
+	}
+		
+	shuffleArray(questionContext.incorrect_answers);
 	//	create labels and radio inputs with choices;
 	const choices = [];
 	for (answer of questionContext.incorrect_answers)
@@ -165,13 +169,19 @@ function showHelp()
 }
 
 //	helper functions
-async function insertRandom(array, element)
+//	https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+async function shuffleArray(array)
 {
-	const randomIdx = Math.floor((Math.random() * (array.length)));
-	const tmp = array[randomIdx];
-	array[randomIdx] = element;
-	array.push(tmp);
-	alert(randomIdx);
+	let i = array.length;
+
+	while (i != 0)
+	{
+		const random = Math.floor(Math.random() * i);
+		i--;
+
+		[array[i], array[random]] = [array[random], array[i]];
+
+	}
 }
 
 function createPlayButton()
