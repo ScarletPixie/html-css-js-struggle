@@ -1,0 +1,209 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
+html, body
+{
+        padding: 0;
+        margin: 0;
+        background: -o-linear-gradient(135deg, #2b5876, #4e4376);
+        background: linear-gradient(-45deg, #2b5876, #4e4376);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+}
+
+:root
+{
+        --header-color:                 rgb(0, 0, 0);
+        --header-text-color:    white;
+}
+
+fieldset
+{
+        border: none;
+}
+
+header h1
+{
+        text-align: center;
+        background: -webkit-gradient(linear, left top, right top, from(#e65c00), to(#f9d423));
+        background: -o-linear-gradient(left, #e65c00, #f9d423);
+        background: linear-gradient(to right, #e65c00, #f9d423);
+        -webkit-background-clip: text;
+                background-clip: text;
+        color: transparent;
+}
+
+main
+{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        width: 100%;
+}
+
+#question-content
+{
+        text-align: center;
+}
+
+#question-content legend
+{
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin: 0 auto;
+        padding: 2rem;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+}
+
+#question-content label
+{
+        display: block;
+        text-align: left;
+}
+
+#question-card
+{
+        display: -ms-grid;
+        display: grid;
+        gap: 1rem;
+        -ms-grid-columns: 1fr 1rem 1fr 1rem 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        -ms-grid-rows: 3fr 1rem 2fr 1rem 1fr;
+        grid-template-rows: 3fr 2fr 1fr;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        padding: clamp(1rem, 2vw, 2rem);
+        width: min(90vw, 30rem);
+        border: solid white 2px;
+        background-color: aliceblue;
+        border-radius: min(5vw, 5%);
+        overflow: hidden;
+}
+
+#question-card > *:nth-child(1)
+{
+        -ms-grid-row: 1;
+        -ms-grid-column: 1;
+}
+
+#question-card > *:nth-child(2)
+{
+        -ms-grid-row: 1;
+        -ms-grid-column: 3;
+}
+
+#question-card > *:nth-child(3)
+{
+        -ms-grid-row: 1;
+        -ms-grid-column: 5;
+}
+
+#question-card > *:nth-child(4)
+{
+        -ms-grid-row: 3;
+        -ms-grid-column: 1;
+}
+
+#question-card > *:nth-child(5)
+{
+        -ms-grid-row: 3;
+        -ms-grid-column: 3;
+}
+
+#question-card > *:nth-child(6)
+{
+        -ms-grid-row: 3;
+        -ms-grid-column: 5;
+}
+
+#question-card > *:nth-child(7)
+{
+        -ms-grid-row: 5;
+        -ms-grid-column: 1;
+}
+
+#question-card > *:nth-child(8)
+{
+        -ms-grid-row: 5;
+        -ms-grid-column: 3;
+}
+
+#question-card > *:nth-child(9)
+{
+        -ms-grid-row: 5;
+        -ms-grid-column: 5;
+}
+
+#question-card #feedback
+{
+        text-align: center;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        padding: 3vh 0;
+        font-size: 1.5rem;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 3;
+        grid-column: 1 / span 3;
+}
+
+.init-button
+{
+        background-color: rgb(0, 81, 255);
+        color: white;
+        border: solid rgb(7, 31, 109) 0.5px;
+        border-radius: 3%;
+        font-weight: bolder;
+        font-size: min(1.7rem, 5vw);
+        width: 40%;
+        height: 50%;
+        text-align: center;
+        margin: auto;
+}
+
+#question-card div
+{
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 3;
+        grid-column: 1 / span 3;
+}
+
+.navigation
+{
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        visibility: hidden;
+        -webkit-box-pack: space-evenly;
+            -ms-flex-pack: space-evenly;
+                justify-content: space-evenly;
+}
+
+.action-buttons
+{
+        background-color: rgb(0, 81, 255);
+        color: white;
+        border: solid rgb(7, 31, 109) 0.5px;
+        border-radius: 3%;
+        font-weight: bolder;
+        width: 30%;
+        font-size: min(1.5rem, 5vw);
+}
+
+button:disabled
+{
+        background-color: gray;
+        color: rgb(32, 31, 31);
+}
