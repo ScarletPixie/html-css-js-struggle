@@ -199,7 +199,13 @@ main
         border-radius: 3%;
         font-weight: bolder;
         width: 30%;
+	height: 5vh;
         font-size: min(1.5rem, 5vw);
+}
+
+button:active
+{
+	filter: brightness(85%);
 }
 
 button:disabled
