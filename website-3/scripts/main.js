@@ -1,13 +1,201 @@
 //	https://opentdb.com/api_config.php
-const AMOUNT = 10;
-const QUESTIONS_CONTENT = document.querySelector("#question-content");
-const QUESTIONS_URL = `https://opentdb.com/api.php?amount=${AMOUNT}`;
 
-setInitialEvents();
+main();
 
-//	fetch questions from API passed in URL
-async function fetchQuestions(URL)
+function main()
 {
+	//	API parameters
+	const AMOUNT			= 10;
+	const QUESTIONS_URL		= `https://opentdb.com/api.php?amount=${AMOUNT}`;
+
+	if (AMOUNT <= 0 || !QUESTIONS_URL)
+		throw new Error("Invalid API parameters");
+
+	//	HTML elements
+	const FEEDBACK_DIV		= document.querySelector("#feedback")
+	const NAVIGATION_DIV	= document.querySelector("#navigation");
+	const QUESTIONS_CONTENT	= document.querySelector("#question-content");
+	const BUTTONS			= {
+		buttons: document.querySelectorAll(".action-button, .init-button"),
+		get answerBt() { return this.buttons[2]; },
+		get resetBt() { return this.buttons[3]; },
+		get playBt() { return this.buttons[0]; },
+		get helpBt() { return this.buttons[1]; },
+	};
+	
+	if (!QUESTIONS_CONTENT || !FEEDBACK_DIV || !NAVIGATION_DIV)
+		throw new Error("Missing/invalid HTML structure");
+	for (const button of BUTTONS.buttons)
+	{
+		if (!button)
+			throw new Error("Missing/invalid HTML structure");
+	}
+
+	//	weird closure behavior
+	let	hasEventListener = false;
+
+	async function startGame()
+	{
+		hasEventListener = true;
+
+		let questionIdx = 0;
+		let score = 0;
+		NAVIGATION_DIV.style.visibility = 'hidden';
+		QUESTIONS_CONTENT.innerHTML = '';
+		
+		FEEDBACK_DIV.textContent = "LOADING...";
+		const questions = await fetchQuestions(QUESTIONS_URL);
+		FEEDBACK_DIV.textContent = "";
+
+		loadQuestion(questions, questionIdx);
+
+		NAVIGATION_DIV.style.visibility = 'visible';
+		console.log(questions.results);
+
+		BUTTONS.answerBt.addEventListener('click', answerHandler);
+
+		function loadQuestion(questions, index)
+		{
+			QUESTIONS_CONTENT.innerHTML = '';
+
+			questions.results[index].incorrect_answers.push(questions.results[index].correct_answer);
+			shuffleArray(questions.results[index].incorrect_answers);
+
+			const question = document.createElement('legend');
+			const tmpSpan = document.createElement('span');
+			tmpSpan.innerHTML = questions.results[index].question;
+			question.textContent = tmpSpan.textContent;
+			const choice_labels = [];
+
+			QUESTIONS_CONTENT.appendChild(question);
+			for (let i = 0; i < questions.results[index].incorrect_answers.length; i++)
+			{
+				tmpSpan.innerHTML = questions.results[index].incorrect_answers[i];
+				const sanitized_value = tmpSpan.textContent;
+				const choice = document.createElement('input');
+
+				choice.type="radio";
+				choice.name="choice";
+				choice.value = sanitized_value;
+				
+				choice_labels.push(document.createElement('label'));
+				choice_labels[i].appendChild(choice);
+				choice_labels[i].appendChild(document.createTextNode(sanitized_value));
+
+				QUESTIONS_CONTENT.appendChild(choice_labels[i]);
+			}
+		}
+
+		async function answerHandler()
+		{
+			const CHOICES_LABEL = QUESTIONS_CONTENT.querySelectorAll('label');
+			const CHOICES_INPUT = QUESTIONS_CONTENT.querySelectorAll('label input');
+
+			let emptyAnswer = true;
+			for (const choice of CHOICES_INPUT)
+			{
+				if (choice.checked)
+					emptyAnswer = false;
+			}
+			if (emptyAnswer)
+				return ;
+
+			for (const choice of CHOICES_INPUT)
+			{
+				if (choice.checked)
+				{
+					let feedback_color = 'green';
+					let feedback_content = 'Correct';
+
+					if (choice.value === questions.results[questionIdx].correct_answer)
+						score++;
+					else
+					{
+						feedback_content = 'Incorrect';
+						feedback_color = 'red';
+					}
+
+					FEEDBACK_DIV.style.color = feedback_color;
+					FEEDBACK_DIV.textContent = '';
+					FEEDBACK_DIV.textContent = feedback_content;
+
+					//	empty feedback field
+					setTimeout(() => {
+						FEEDBACK_DIV.textContent = '';
+					}, 1000);
+
+					break;
+				}
+			}
+
+			questionIdx++;
+			if (questionIdx >= AMOUNT)
+			{
+				questionIdx = 0;
+				showGameOver(score);
+				return;
+			}
+			loadQuestion(questions, questionIdx);
+		}
+	}
+
+	function throttledStartGame(startGame, ms = 3000)
+	{
+		let timer = null;
+
+		return function(...args) {
+			if (timer === null)
+			{
+				startGame(...args);
+				timer = setTimeout(() => {timer = null}, ms);
+			}
+		};
+	}
+	
+	function initialSetup()
+	{
+		let throttleStart = throttledStartGame(startGame, 3000);
+
+		BUTTONS.resetBt.addEventListener('click',() => {
+			const input = confirm("Are you sure you want to reset the game (points will be lost).");
+			if (input)
+				startGame();
+		});
+		BUTTONS.playBt.addEventListener('click', throttleStart);
+		BUTTONS.helpBt.addEventListener('click', showHelp);
+	}
+
+	function showHelp()
+	{
+		QUESTIONS_CONTENT.innerHTML = '';
+
+		const helpMessage = document.createElement('p');
+		helpMessage.textContent = `You'll answer ${AMOUNT} questions, at the end you'll score will appear.`;
+		QUESTIONS_CONTENT.appendChild(helpMessage);
+		QUESTIONS_CONTENT.appendChild(BUTTONS.playBt);
+	}
+
+	function showGameOver(score)
+	{
+		QUESTIONS_CONTENT.innerHTML = '';
+		NAVIGATION_DIV.style.visibility = 'hidden';
+		const message = document.createElement('p');
+		message.textContent = `Your final score ${score}`;
+
+		QUESTIONS_CONTENT.appendChild(message);
+		QUESTIONS_CONTENT.appendChild(BUTTONS.playBt);
+	}
+
+	initialSetup();
+}
+
+//	fetch questions from API passed in URL (retry up to 10 times)
+async function fetchQuestions(URL, MAX_RETRIES = 10, RETRY_INTERVAL = 3000)
+{
+	if (MAX_RETRIES > 10)
+		throw new Error("MAX_RETRIES is too high");
+	if (MAX_RETRIES <= 0)
+		throw new Error("Could not fetch questions :/");
 	try
 	{
 		const response = await fetch(URL);
@@ -20,157 +208,16 @@ async function fetchQuestions(URL)
 	}
 	catch (error)
 	{
-		console.error(`Error: ${error}`);
+		console.log(`fetch failed with error ${error}, retrying....`);
+		const delay = new Promise(resolve => setTimeout(resolve, RETRY_INTERVAL));
+		await delay;
+		return fetchQuestions(URL, MAX_RETRIES - 1, RETRY_INTERVAL + 300);
 	}
-}
-
-async function isQuestionCorrect(response_data, questionIdx)
-{
-	const data = await response_data;
-	const choices = document.querySelectorAll('input[type="radio"]');
-	let noChecked = true;
-
-	for (choice of choices)
-	{
-		if (choice.checked)
-			noChecked = false;
-		if (choice.checked && choice.value === data.results[questionIdx].correct_answer)
-			return 1;
-	}
-
-	if (noChecked)
-		return -1;
-	return (0);
-}
-
-async function loadQuestion(response_data, questionIdx)
-{
-	const data = await response_data;
-	const questionContext = data.results[questionIdx];
-
-	const question = document.createElement('legend');
-
-	//	sanitize html content
-	const tmp = document.createElement('span');
-	tmp.innerHTML = questionContext.question;
-	question.textContent = tmp.textContent;
-	
-	//	join correct answers in incorrect_answers array in random psition
-	if (!questionContext.incorrect_answers.includes(questionContext.correct_answer))
-	{
-		questionContext.incorrect_answers.push(questionContext.correct_answer);
-	}
-		
-	shuffleArray(questionContext.incorrect_answers);
-	//	create labels and radio inputs with choices;
-	const choices = [];
-	for (answer of questionContext.incorrect_answers)
-	{
-		const choice_label = document.createElement('label');
-		const choice = document.createElement('input');
-		
-		choice.type = 'radio';
-		choice.value = answer;
-		choice.name = 'choice';
-		
-		choice_label.appendChild(choice);
-		choice_label.appendChild(document.createTextNode(answer));
-		
-		choices.push(choice_label);
-	}
-
-	//	empty fieldset and populate with new question
-	QUESTIONS_CONTENT.innerHTML = '';
-	QUESTIONS_CONTENT.appendChild(question);
-	for (choice of choices)
-		QUESTIONS_CONTENT.appendChild(choice);
-	
-	console.log(questionContext);
-	data.results[questionIdx];
-}
-
-//	start, reset, help
-function setInitialEvents()
-{
-	document.querySelector('#play').addEventListener('click', startGame);
-	document.querySelector('#help').addEventListener('click', showHelp);
-	document.querySelector('#reset').addEventListener('click', () => {	
-		const reset = window.confirm("are you sure you wanna reset (points will be lost).");
-		if (!reset)
-			return;
-		startGame();
-	});
-}
-
-function startGame()
-{
-	let score = 0;
-	let questionIdx = 0;
-
-	QUESTIONS_CONTENT.innerHTML = '';
-	const answerBt = document.querySelector('#answer');
-	const navigationDiv = document.querySelector(".navigation");
-	navigationDiv.style.visibility = 'visible';
-
-	const questions = fetchQuestions(QUESTIONS_URL);
-
-	loadQuestion(questions, questionIdx);
-
-	answerBt.addEventListener('click', async () =>
-		{
-			const status = isQuestionCorrect(questions, questionIdx);
-			const feedback = document.querySelector("#feedback");
-			status.then( value => {
-				let goNext = true;
-
-				if (value == -1)
-				{
-					goNext = false;
-					return;
-				}
-				else if (value > 0)
-				{
-					score++;
-					feedback.style.color = "green";
-					feedback.textContent = "Correct";
-				}
-				else
-				{
-					feedback.style.color = "red";
-					feedback.textContent = "Incorrect";
-				}				
-				if (!goNext)
-					return;
-				questionIdx++;
-				loadQuestion(questions, questionIdx);
-			});
-			setTimeout(() => {
-				feedback.textContent = '';
-			}, 1000);
-		}
-	);
-}
-
-function showHelp()
-{
-	const help = document.createElement('p');
-	const play = createPlayButton();
-
-	QUESTIONS_CONTENT.innerHTML = '';
-
-	help.textContent = "\
-		You'll answer 10 random questions,\
-		 at the end of the game your score will be displayed\
-	";
-
-	QUESTIONS_CONTENT.appendChild(help);
-	QUESTIONS_CONTENT.appendChild(play);
-	play.addEventListener('click', startGame);
 }
 
 //	helper functions
 //	https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-async function shuffleArray(array)
+function shuffleArray(array)
 {
 	let i = array.length;
 
@@ -182,24 +229,4 @@ async function shuffleArray(array)
 		[array[i], array[random]] = [array[random], array[i]];
 
 	}
-}
-
-function createPlayButton()
-{
-	const button = document.createElement('button');
-	button.value = 'play';
-	button.classList += 'init-button';
-	button.id = 'play';
-	button.textContent = "Play";
-	return button;
-}
-
-function createHelpButton()
-{
-	const button = document.createElement('button');
-	button.value = 'help';
-	button.classList += 'init-button';
-	button.textContent = "Help";
-	button.id = 'help';
-	return button;
 }

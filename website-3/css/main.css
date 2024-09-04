@@ -98,14 +98,14 @@ main
 	grid-column: 1 / span 3;
 }
 
-.navigation
+#navigation
 {
 	display: flex;
 	visibility: hidden;
 	justify-content: space-evenly;
 }
 
-.action-buttons
+.action-button
 {
 	background-color: rgb(0, 81, 255);
 	color: white;
