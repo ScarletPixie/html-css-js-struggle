@@ -5,7 +5,7 @@ main();
 function main()
 {
 	//	API parameters
-	const AMOUNT			= 10;
+	const AMOUNT			= 2;
 	const QUESTIONS_URL		= `https://opentdb.com/api.php?amount=${AMOUNT}`;
 
 	if (AMOUNT <= 0 || !QUESTIONS_URL)
@@ -58,7 +58,8 @@ function main()
 		{
 			QUESTIONS_CONTENT.innerHTML = '';
 
-			questions.results[index].incorrect_answers.push(questions.results[index].correct_answer);
+			if (!questions.results[index].incorrect_answers.includes(questions.results[index].correct_answer))
+				questions.results[index].incorrect_answers.push(questions.results[index].correct_answer);
 			shuffleArray(questions.results[index].incorrect_answers);
 
 			const question = document.createElement('legend');
@@ -123,7 +124,6 @@ function main()
 					setTimeout(() => {
 						FEEDBACK_DIV.textContent = '';
 					}, 1000);
-
 					break;
 				}
 			}
@@ -133,6 +133,7 @@ function main()
 			{
 				questionIdx = 0;
 				showGameOver(score);
+				score = 0;
 				return;
 			}
 			loadQuestion(questions, questionIdx);
@@ -180,7 +181,7 @@ function main()
 		QUESTIONS_CONTENT.innerHTML = '';
 		NAVIGATION_DIV.style.visibility = 'hidden';
 		const message = document.createElement('p');
-		message.textContent = `Your final score ${score}`;
+		message.textContent = `Your final score ${score}/${AMOUNT}`;
 
 		QUESTIONS_CONTENT.appendChild(message);
 		QUESTIONS_CONTENT.appendChild(BUTTONS.playBt);
