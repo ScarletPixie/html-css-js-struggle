@@ -11,8 +11,8 @@ html, body
 /*navbar*/
 #navbar
 {
-	width: 100%;
-	height: 15vh;
+	min-width: 100%;
+	min-height: 15vh;
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
@@ -24,10 +24,11 @@ html, body
 
 .navbar-link
 {
+	max-width: 30%;
 	line-height: 15vh;
 	font-weight: bolder;
 	text-decoration: none;
-	font-size: 2rem;
+	font-size: clamp(1.2rem, 5vw,2.5rem);
 	color: black;
 }
 
@@ -66,14 +67,15 @@ a[class="navbar-link"]:hover
 /*main*/
 #main
 {
-	height: 90vh;
+	min-height: 90vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 #main section
 {
-	width: 60%;
+	min-width: 60vw;
+	max-width: 90vw;
 }
 
 #main header
@@ -90,7 +92,6 @@ a[class="navbar-link"]:hover
 #footer
 {
 	border-top: solid rgb(194, 157, 109) 0.2rem;
-	padding: 5rem;
 	background-color: burlywood;
 	text-align: center;
 }
@@ -107,3 +108,11 @@ a[class="navbar-link"]:hover
 	font-size: 4rem;
 }
 /***************************************/
+
+@media screen and (max-width: 800px)
+{
+	#sidebar
+	{
+		display:	none;
+	}
+}
