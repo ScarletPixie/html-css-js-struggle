@@ -1,0 +1,1 @@
+A little bit more effort on the CSS part, still broken on small screen devices, website is a bit more structured than the previous one.
