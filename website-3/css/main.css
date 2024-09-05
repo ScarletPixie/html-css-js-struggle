@@ -60,7 +60,7 @@ main
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 3fr 2fr 1fr;
+	grid-template-rows: 3fr min(2fr, 25%) 1fr;
 	box-sizing: border-box;
 	padding: clamp(1rem, 2vw, 2rem);
 	width: min(90vw, 30rem);
@@ -68,6 +68,7 @@ main
 	background-color: aliceblue;
 	border-radius: min(5vw, 5%);
 	overflow: hidden;
+	height: auto;
 }
 
 #question-card #feedback
@@ -113,6 +114,7 @@ main
 	border-radius: 3%;
 	font-weight: bolder;
 	width: 30%;
+	height: max(5vh, 3rem);
 	font-size: min(1.5rem, 5vw);
 }
 

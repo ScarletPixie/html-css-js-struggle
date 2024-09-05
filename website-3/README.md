@@ -1,0 +1,1 @@
+A basic quiz app that uses an [external API](https://opentdb.com/api_config.php);
