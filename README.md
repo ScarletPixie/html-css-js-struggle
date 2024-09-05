@@ -1,1 +1,1 @@
-Once upon a time i was actually pretty decent at HTML, CSS and could get stuff done in JS, the goal of this repo is to hopefully get even better than i was before. The objective is to make dozens of basic pages using those 3 languages.
+Really basic html+css structure. Broken on small screens.
