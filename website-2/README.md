@@ -1,0 +1,1 @@
+basic calculator using JS, should work on most devices with small screen, slightly responsive.
