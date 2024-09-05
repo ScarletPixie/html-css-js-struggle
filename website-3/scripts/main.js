@@ -44,7 +44,7 @@ function main()
 		QUESTIONS_CONTENT.innerHTML = '';
 		
 		FEEDBACK_DIV.textContent = "LOADING...";
-		const questions = await fetchQuestions(QUESTIONS_URL);
+		let questions = await fetchQuestions(QUESTIONS_URL);
 		FEEDBACK_DIV.textContent = "";
 
 		loadQuestion(questions, questionIdx);
@@ -134,6 +134,7 @@ function main()
 				questionIdx = 0;
 				showGameOver(score);
 				score = 0;
+				questions = await fetchQuestions(QUESTIONS_URL);
 				return;
 			}
 			loadQuestion(questions, questionIdx);
