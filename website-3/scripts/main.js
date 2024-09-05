@@ -44,7 +44,7 @@ function main()
 		QUESTIONS_CONTENT.innerHTML = '';
 		
 		FEEDBACK_DIV.textContent = "LOADING...";
-		let questions = await fetchQuestions(QUESTIONS_URL);
+		const questions = await fetchQuestions(QUESTIONS_URL);
 		FEEDBACK_DIV.textContent = "";
 
 		loadQuestion(questions, questionIdx);
@@ -52,7 +52,8 @@ function main()
 		NAVIGATION_DIV.style.visibility = 'visible';
 		console.log(questions.results);
 
-		BUTTONS.answerBt.addEventListener('click', answerHandler);
+		//	used .onclick instead of event listener to make it easy to 'reset' the event handler.
+		BUTTONS.answerBt.onclick = answerHandler;
 
 		function loadQuestion(questions, index)
 		{
@@ -131,10 +132,7 @@ function main()
 			questionIdx++;
 			if (questionIdx >= AMOUNT)
 			{
-				questionIdx = 0;
 				showGameOver(score);
-				score = 0;
-				questions = await fetchQuestions(QUESTIONS_URL);
 				return;
 			}
 			loadQuestion(questions, questionIdx);
