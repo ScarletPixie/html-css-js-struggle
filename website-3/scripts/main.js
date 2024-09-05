@@ -5,7 +5,7 @@ main();
 function main()
 {
 	//	API parameters
-	const AMOUNT			= 2;
+	const AMOUNT			= 10;
 	const QUESTIONS_URL		= `https://opentdb.com/api.php?amount=${AMOUNT}`;
 
 	if (AMOUNT <= 0 || !QUESTIONS_URL)
@@ -79,8 +79,9 @@ function main()
 				choice.type="radio";
 				choice.name="choice";
 				choice.value = sanitized_value;
-				
+
 				choice_labels.push(document.createElement('label'));
+				choice_labels[i].style.margin = "min(1rem, 1vh) 0";
 				choice_labels[i].appendChild(choice);
 				choice_labels[i].appendChild(document.createTextNode(sanitized_value));
 
